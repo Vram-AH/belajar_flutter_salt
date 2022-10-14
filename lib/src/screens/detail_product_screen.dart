@@ -9,6 +9,7 @@ class DetailProductScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 220, 152, 57),
         title: const Text("Detail Produk"),
       ),
       body: FutureBuilder<http.Response>(

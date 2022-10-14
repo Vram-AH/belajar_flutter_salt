@@ -8,12 +8,18 @@ class GridProductWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(15),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    DetailProductScreen(productId: product.id!)));
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(10),
         child: Container(
-          color: const Color.fromARGB(255, 150, 192, 214),
+          color: Colors.white,
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,31 +29,28 @@ class GridProductWidget extends StatelessWidget {
                   tag: product.id!,
                   child: Image.network(
                     product.image!,
-                    fit: BoxFit.fitWidth,
+                    fit: BoxFit.fill,
                     width: size.width,
-                    height: 136,
+                    height: 130,
                   ),
                 ),
 
                 // Text nama product
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    verticalDirection: VerticalDirection.down,
-                    children: [
-                      Text(product.title!,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18)),
-                      // Text harga product
-                      Text(
-                        NumberFormat.currency(
-                                locale: 'id', symbol: 'RP ', decimalDigits: 0)
-                            .format(product.price!),
-                      ),
-                    ],
-                  ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  verticalDirection: VerticalDirection.down,
+                  children: [
+                    Text(product.title!,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 14)),
+                    // Text harga product
+                    Text(
+                      NumberFormat.currency(
+                              locale: 'id', symbol: 'RP ', decimalDigits: 0)
+                          .format(product.price!),
+                    ),
+                  ],
                 ),
               ],
             ),

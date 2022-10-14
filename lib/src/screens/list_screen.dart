@@ -30,55 +30,53 @@ class _ListScreenState extends State<ListScreen> {
   Widget build(BuildContext context) {
     //posisi index = 0
 
-    Color mianColor = const Color.fromARGB(255, 94, 172, 228);
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 220, 152, 57),
+        title: Text(nama),
+        actions: [
+          IconButton(onPressed: ubahNama, icon: const Icon(Icons.person)),
+          IconButton(
+              onPressed: () async {
+                SharedPreferences storage = await prefs;
+                if (storage.getBool('pernah_login') == true) {
+                  storage.clear().then((value) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginScreen()));
+                  });
+                }
+              },
+              icon: const Icon(Icons.logout))
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.blue,
+        backgroundColor: const Color.fromARGB(255, 220, 152, 57),
         currentIndex: bottomNavBarIndex,
         onTap: (value) {
           setState(() {
             bottomNavBarIndex = value;
           });
         },
-        // items berguna untuk tambah icon yang akan di munculkan pada botton bar
         items: const [
+          //Index ke 0
           BottomNavigationBarItem(icon: Icon(Icons.list), label: 'ListView'),
+          //Index ke 1
           BottomNavigationBarItem(
               icon: Icon(Icons.grid_3x3), label: 'GridView'),
         ],
       ),
       body:
-          // kondisi = jika bottomNavbarIndex 0 maka tampil list product jika 1 tampil grid product
+          // Perbandingan                 //Nilai True          //Nilai False
           (bottomNavBarIndex == 0) ? const ListProduct() : const GridProduct(),
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: mianColor,
-        title: Text(nama),
-        actions: [
-          IconButton(onPressed: ubahNama, icon: const Icon(Icons.person)),
-          IconButton(
-            onPressed: () async {
-              SharedPreferences storage = await prefs;
-              if (storage.getBool('pernah_login') == true) {
-                storage.clear().then((value) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginScreen()));
-                });
-              }
-            },
-            icon: const Icon(Icons.logout),
-          ),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
-        ],
-      ),
     );
   }
 }
 
 class GridProduct extends StatelessWidget {
-  const GridProduct({Key? key}) : super(key: key);
+  const GridProduct({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +127,7 @@ class ListProduct extends StatelessWidget {
           return ListView.builder(
             itemCount: products.length,
             itemBuilder: (context, index) =>
-                ProductWidget(product: products[index]),
+                ListProductWidget(product: products[index]),
           );
         }
         return Container();
